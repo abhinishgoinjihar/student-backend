@@ -14,7 +14,7 @@ module.exports.register = async function (req, res) {
 
     await createUser({ name, username, password: hashedPassword });
 
-    res.status(201).json({ message: "User created" });
+    res.status(201).json({ message: "Register successful" });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -36,11 +36,11 @@ module.exports.login = async function (req, res) {
     const isMatched = await bcrypt.compare(password, user.password);
 
     if (!isMatched)
-      return res.status(401).json({ message: "Incorrect Password" });
+      return res.status(401).json({ message: "Incorrect password" });
 
     delete user.password;
 
-    res.status(201).json({ data: user });
+    res.status(201).json({ message: "Login Successful", data: user });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
