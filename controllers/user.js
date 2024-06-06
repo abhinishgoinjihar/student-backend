@@ -14,9 +14,9 @@ module.exports.register = async function (req, res) {
 
     await createUser({ name, username, password: hashedPassword });
 
-    res.status(201).json({ message: "Register successful" });
+    return res.status(201).json({ message: "Register successful" });
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    return res.status(500).json({ message: err.message });
   }
 };
 
@@ -40,8 +40,8 @@ module.exports.login = async function (req, res) {
 
     delete user.password;
 
-    res.status(201).json({ message: "Login Successful", data: user });
+    return res.status(200).json({ message: "Login Successful", data: user });
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    return res.status(500).json({ message: err.message });
   }
 };

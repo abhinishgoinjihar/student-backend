@@ -1,5 +1,6 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+const cors = require("cors");
 const routes = require("./routes");
 
 const { runMigration } = require("./db");
@@ -7,6 +8,8 @@ const { runMigration } = require("./db");
 const app = express();
 
 app.use(bodyParser.json());
+
+app.use(cors());
 
 runMigration();
 

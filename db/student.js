@@ -16,7 +16,7 @@ const { connection } = require(".");
 
 /**
  *
- * @param {CreateStudentProps} body
+ * @param {CreateStudentProps} data
  * @returns {Promise<void>}
  */
 module.exports.createStudent = async function ({
@@ -52,7 +52,7 @@ module.exports.createStudent = async function ({
           return reject(err);
         }
         resolve();
-      },
+      }
     );
   });
 };
@@ -75,22 +75,33 @@ module.exports.getStudentByRollNo = async function (rollNo) {
         }
 
         resolve(result[0]);
-      },
+      }
     );
   });
 };
 
 /**
+ * @typedef {Object} GetAllStudentProps
+ * @property {string} search
+ */
+
+/**
+ *
+ * @param {GetAllStudentProps} props
  * @return {Promise<Array<unknown>>}
  */
-module.exports.getAllStudents = async function () {
+module.exports.getAllStudents = async function ({ search }) {
   return new Promise((resolve, reject) => {
-    connection.query(`SELECT * FROM student`, function (err, result) {
-      if (err) {
-        return reject(err);
-      }
+    connection.query(
+      `SELECT * FROM student WHERE rollNo LIKE ? OR name LIKE ? OR regNo LIKE ?`,
+      [`%${search}%`, `%${search}%`, `%${search}%`],
+      function (err, result) {
+        if (err) {
+          return reject(err);
+        }
 
-      resolve(result);
-    });
+        resolve(result);
+      }
+    );
   });
 };
